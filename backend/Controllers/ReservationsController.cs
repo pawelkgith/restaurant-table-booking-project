@@ -58,4 +58,15 @@ public class ReservationsController : ControllerBase
 
     return StatusCode(500, new { message =" An unexpected error occurred while processing the reservation." });
   }
+
+  [HttpGet("client/{clientId}")]
+  public async Task<IActionResult> GetClientReservations(int clientId)
+  {
+    var reservations = await _context.Reservations
+      .Where(r => r.ClientId == clientId)
+      .OrderByDescending(r => r.ReservationTime)
+      .ToListAsync();
+
+    return Ok(reservations);
+  }
 }
