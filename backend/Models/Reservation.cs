@@ -14,7 +14,7 @@ public class Reservation
   [Column("reservation_time")]
   public DateTime ReservationTime { get; set; }
   [Column("duration_hours")]
-  public int DurationHours { get; set; }
+  public int DurationHours { get; set; } = 2;
   [Column("guests_count")]
   public int GuestsCount { get; set; }
   [Column("special_requests")]
