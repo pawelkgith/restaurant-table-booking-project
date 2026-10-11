@@ -1,13 +1,29 @@
-export const App = () => {
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import { LoginPage } from './pages/LoginPage';
+import { ReservationPage } from './pages/ReservationPage';
+import { ProtectedRoute } from './components/ProtectedRoute';
+
+export function App() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="rounded-xl bg-white p-8 shadow-md">
-        <h1 className="text-2xl font-bold text-blue-600">
-          Restaurant Booking App
-        </h1>
-        <p className="mt-2 text-gray-600">Placeholder</p>
-      </div>
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+
+          <Route 
+            path="/reservations" 
+            element={
+              <ProtectedRoute>
+                <ReservationPage />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route path="*" element={<Navigate to="/reservations" replace />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
