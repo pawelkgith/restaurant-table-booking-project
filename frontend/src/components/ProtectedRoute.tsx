@@ -8,9 +8,8 @@ interface ProtectedRouteProps {
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { client, token } = useAuth();
 
-  if(!client || !token) {
-    return <Navigate to="/login" replace />
+  if (!client || !token) {
+    return <Navigate to="/login" replace />;
   }
   return children;
-}
-
+};

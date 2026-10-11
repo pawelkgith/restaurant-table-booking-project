@@ -1,32 +1,32 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export const LoginPage = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [fullName, setFullName] = useState('');
-  const [phone, setPhone] = useState('');
-  const [message, setMessage] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [fullName, setFullName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
   const [isError, setIsError] = useState(false);
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setMessage('');
+    setMessage("");
 
-    const endpoint = isRegistering ? 'register' : 'login';
-    const body = isRegistering 
+    const endpoint = isRegistering ? "register" : "login";
+    const body = isRegistering
       ? { email, password, fullName, phone }
       : { email, password };
 
     try {
       const res = await fetch(`http://localhost:5128/api/auth/${endpoint}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(body),
       });
 
@@ -34,10 +34,10 @@ export const LoginPage = () => {
 
       if (!res.ok) {
         setIsError(true);
-        setMessage(data.message || 'An error occurred.');
+        setMessage(data.message || "An error occurred.");
       } else {
         login(data.client, data.token);
-        navigate('/reservations');
+        navigate("/reservations");
       }
     } catch (err) {
       setIsError(true);
@@ -49,11 +49,13 @@ export const LoginPage = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
       <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8">
         <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">
-          {isRegistering ? 'Client Registration' : 'System Login'}
+          {isRegistering ? "Client Registration" : "System Login"}
         </h1>
 
         {message && (
-          <div className={`p-4 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
+          <div
+            className={`p-4 mb-4 rounded-lg text-sm ${isError ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
+          >
             {message}
           </div>
         )}
@@ -62,7 +64,9 @@ export const LoginPage = () => {
           {isRegistering && (
             <>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Full Name:</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Full Name:
+                </label>
                 <input
                   type="text"
                   value={fullName}
@@ -72,7 +76,9 @@ export const LoginPage = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Phone:</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Phone:
+                </label>
                 <input
                   type="text"
                   value={phone}
@@ -85,7 +91,9 @@ export const LoginPage = () => {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email:</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Email:
+            </label>
             <input
               type="email"
               value={email}
@@ -96,7 +104,9 @@ export const LoginPage = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password:</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Password:
+            </label>
             <input
               type="password"
               value={password}
@@ -110,16 +120,21 @@ export const LoginPage = () => {
             type="submit"
             className="w-full bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-700 transition shadow-md"
           >
-            {isRegistering ? 'Register' : 'Login'}
+            {isRegistering ? "Register" : "Login"}
           </button>
         </form>
 
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-end">
           <button
-            onClick={() => { setIsRegistering(!isRegistering); setMessage(''); }}
+            onClick={() => {
+              setIsRegistering(!isRegistering);
+              setMessage("");
+            }}
             className="text-sm text-blue-600 hover:underline"
           >
-            {isRegistering ? 'Already have an account? Login' : "Don't have an account? Register"}
+            {isRegistering
+              ? "Already have an account? Login"
+              : "Don't have an account? Register"}
           </button>
         </div>
       </div>
